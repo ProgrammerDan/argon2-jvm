@@ -1,4 +1,4 @@
-package de.mkammerer.argon2.jna;
+package de.mkammerer.argon2.impl.jna;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;

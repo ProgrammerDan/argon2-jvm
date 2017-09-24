@@ -13,11 +13,57 @@ version '2.3-SNAPSHOT'
 
 description 'Argon2 Binding for the JVM'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
-compileJava.options.encoding = 'UTF-8'
+sourceCompatibility = 9
+targetCompatibility = 9
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+// See https://guides.gradle.org/building-java-9-modules/
+ext.moduleName = 'de.mkammerer.argon2'
+
+compileJava {
+    options.encoding = 'UTF-8'
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+        ]
+        classpath = files()
+    }
+}
+
+compileTestJava {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        options.compilerArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'junit',
+                '--add-reads', "$moduleName=junit",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.srcDirs).asPath,
+        ]
+        classpath = files()
+    }
+}
+
+test {
+    inputs.property("moduleName", moduleName)
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'ALL-MODULE-PATH',
+                '--add-reads', "$moduleName=junit",
+                '--patch-module', "$moduleName=" + files(sourceSets.test.java.outputDir).asPath,
+        ]
+        classpath = files()
+    }
+}
+
+jar {
+    inputs.property("moduleName", moduleName)
+    manifest {
+        attributes('Automatic-Module-Name': moduleName)
+    }
 }
 
 repositories {
@@ -34,12 +80,12 @@ task sourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allJava
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
 
-task noLibsJar(type: Jar, dependsOn: javadoc) {
+task noLibsJar(type: Jar) {
     baseName = project.name + '-nolibs'
     from sourceSets.main.output.classesDirs
 }
@@ -50,18 +96,18 @@ task noLibsSourcesJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allJava
 }
 
-task noLibsJavadocJar(type: Jar, dependsOn: javadoc) {
-    baseName = project.name + '-nolibs'
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
+//task noLibsJavadocJar(type: Jar, dependsOn: javadoc) {
+//    baseName = project.name + '-nolibs'
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
 
 artifacts {
     archives sourcesJar
-    archives javadocJar
+//    archives javadocJar
     archives noLibsJar
     archives noLibsSourcesJar
-    archives noLibsJavadocJar
+//    archives noLibsJavadocJar
 }
 
 task wrapper(type: Wrapper) {

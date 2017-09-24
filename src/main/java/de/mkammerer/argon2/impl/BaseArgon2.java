@@ -1,8 +1,12 @@
-package de.mkammerer.argon2;
+package de.mkammerer.argon2.impl;
 
 import com.sun.jna.Native;
-import de.mkammerer.argon2.jna.Argon2Library;
-import de.mkammerer.argon2.jna.JnaUint32;
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Advanced;
+import de.mkammerer.argon2.Argon2Factory;
+import de.mkammerer.argon2.impl.jna.Argon2Library;
+import de.mkammerer.argon2.impl.jna.Argon2_type;
+import de.mkammerer.argon2.impl.jna.JnaUint32;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -139,8 +143,7 @@ abstract class BaseArgon2 implements Argon2, Argon2Advanced {
         final JnaUint32 jnaMemory = new JnaUint32(memory);
         final JnaUint32 jnaParallelism = new JnaUint32(parallelism);
 
-        int len = Argon2Library.INSTANCE.argon2_encodedlen(jnaIterations, jnaMemory, jnaParallelism,
-                new JnaUint32(salt.length), new JnaUint32(hashLen), getType().getJnaType()).intValue();
+        int len = Argon2Library.INSTANCE.argon2_encodedlen(jnaIterations, jnaMemory, jnaParallelism, new JnaUint32(salt.length), new JnaUint32(hashLen), new Argon2_type(getType().ordinal())).intValue();
         final byte[] encoded = new byte[len];
 
         int result = callLibraryHash(pwd, salt, jnaIterations, jnaMemory, jnaParallelism, encoded);

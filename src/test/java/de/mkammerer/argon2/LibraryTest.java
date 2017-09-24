@@ -1,8 +1,5 @@
-package de.mkammerer.argon2.test;
+package de.mkammerer.argon2;
 
-import de.mkammerer.argon2.Argon2;
-import de.mkammerer.argon2.Argon2Advanced;
-import de.mkammerer.argon2.Argon2Factory;
 import de.mkammerer.argon2.Argon2Factory.Argon2Types;
 import org.junit.Test;
 

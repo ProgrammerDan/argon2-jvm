@@ -1,6 +1,8 @@
 package de.mkammerer.argon2;
 
-import de.mkammerer.argon2.jna.Argon2_type;
+import de.mkammerer.argon2.impl.Argon2d;
+import de.mkammerer.argon2.impl.Argon2i;
+import de.mkammerer.argon2.impl.Argon2id;
 
 /**
  * Factory for {@link Argon2} instances.
@@ -124,16 +126,6 @@ public final class Argon2Factory {
         /**
          * Argon2id
          */
-        ARGON2id;
-
-        private final Argon2_type jnaType;
-
-        Argon2Types() {
-            this.jnaType = new Argon2_type(this.ordinal());
-        }
-
-        public Argon2_type getJnaType() {
-            return jnaType;
-        }
+        ARGON2id
     }
 }

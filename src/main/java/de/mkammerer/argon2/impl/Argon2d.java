@@ -1,20 +1,21 @@
-package de.mkammerer.argon2;
+package de.mkammerer.argon2.impl;
 
-import de.mkammerer.argon2.jna.Argon2Library;
-import de.mkammerer.argon2.jna.JnaUint32;
-import de.mkammerer.argon2.jna.Size_t;
+import de.mkammerer.argon2.Argon2Factory;
+import de.mkammerer.argon2.impl.jna.Argon2Library;
+import de.mkammerer.argon2.impl.jna.JnaUint32;
+import de.mkammerer.argon2.impl.jna.Size_t;
 
 /**
  * Argon2i password hashing function.
  */
-class Argon2d extends BaseArgon2 {
+public class Argon2d extends BaseArgon2 {
     /**
      * Constructor.
      *
      * @param saltLen Salt length in bytes.
      * @param hashLen Hash length in bytes.
      */
-    Argon2d(int saltLen, int hashLen) {
+    public Argon2d(int saltLen, int hashLen) {
         super(saltLen, hashLen);
     }
 
