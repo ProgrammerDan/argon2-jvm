@@ -9,15 +9,19 @@ apply plugin: 'maven'
 apply plugin: 'jacoco'
 
 group 'de.mkammerer'
-version '2.3'
+version '2.3i'
 
-description 'Argon2 Binding for the JVM'
+description 'Argon2i Binding for the JVM'
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 compileJava.options.encoding = 'UTF-8'
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+tasks.withType(Test) {
+    systemProperty "jna.library.path", "/usr/lib"
 }
 
 repositories {
@@ -95,7 +99,7 @@ uploadArchives {
             enhancePom(pom('default'))
 
             // Publish the nolibs version under a different artifact name
-            pom('nolibs').artifactId = 'argon2-jvm-nolibs'
+            pom('nolibs').artifactId = 'argon2i-jvm-nolibs'
             enhancePom(pom('nolibs'))
         }
     }
@@ -108,8 +112,8 @@ uploadArchives {
 void enhancePom(MavenPom pom) {
     pom.project {
         url 'https://github.com/phxql/argon2-jvm'
-        name 'Argon2 JVM'
-        description 'Argon2 Binding for the JVM'
+        name 'Argon2i JVM'
+        description 'Argon2i Binding for the JVM'
         licenses {
             license {
                 name 'GNU Lesser General Public License, Version 3'

@@ -50,53 +50,6 @@ public class LibraryTest {
     }
 
     @Test
-    public void testArgon2d() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2d);
-
-        String hash = sut.hash(2, 65536, 1, "password");
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2d$"), is(true));
-        assertThat(sut.verify(hash, "password"), is(true));
-        assertThat(sut.verify(hash, "not-the-password"), is(false));
-    }
-
-    @Test
-    public void testArgon2dWithChars() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2d);
-
-        String hash = sut.hash(2, 65536, 1, "password".toCharArray());
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2d$"), is(true));
-        assertThat(sut.verify(hash, "password".toCharArray()), is(true));
-        assertThat(sut.verify(hash, "not-the-password".toCharArray()), is(false));
-    }
-
-    @Test
-    public void testArgon2id() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-
-        String hash = sut.hash(2, 65536, 1, "password");
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2id$"), is(true));
-        assertThat(sut.verify(hash, "password"), is(true));
-        assertThat(sut.verify(hash, "not-the-password"), is(false));
-    }
-
-    @Test
-    public void testArgon2idWithChars() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
-
-        String hash = sut.hash(2, 65536, 1, "password".toCharArray());
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2id$"), is(true));
-        assertThat(sut.verify(hash, "password".toCharArray()), is(true));
-        assertThat(sut.verify(hash, "not-the-password".toCharArray()), is(false));
-    }
-    @Test
     public void testArgon2iWithArgs() throws Exception {
         Argon2 sut = Argon2Factory.create(32, 64);
 
@@ -104,30 +57,6 @@ public class LibraryTest {
         System.out.println(hash);
 
         assertThat(hash.startsWith("$argon2i$"), is(true));
-        assertThat(sut.verify(hash, "password"), is(true));
-        assertThat(sut.verify(hash, "not-the-password"), is(false));
-    }
-
-    @Test
-    public void testArgon2dWithArgs() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2d, 32, 64);
-
-        String hash = sut.hash(2, 65536, 1, "password");
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2d$"), is(true));
-        assertThat(sut.verify(hash, "password"), is(true));
-        assertThat(sut.verify(hash, "not-the-password"), is(false));
-    }
-
-    @Test
-    public void testArgon2idWithArgs() throws Exception {
-        Argon2 sut = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id, 32, 64);
-
-        String hash = sut.hash(2, 65536, 1, "password");
-        System.out.println(hash);
-
-        assertThat(hash.startsWith("$argon2id$"), is(true));
         assertThat(sut.verify(hash, "password"), is(true));
         assertThat(sut.verify(hash, "not-the-password"), is(false));
     }
@@ -161,35 +90,11 @@ public class LibraryTest {
     }
     
     @Test
-    public void testArgon2dRawHash() throws Exception {
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-
-        Argon2Advanced sut = Argon2Factory.createAdvanced(Argon2Types.ARGON2d, salt.length, 32);
-        byte[] hash = sut.rawHash(2, 65536, 1, "password", salt);
-        
-        assertThat(sut.rawHash(2, 65536, 1, "password", salt), is(hash));
-        assertThat(sut.rawHash(2, 65536, 1, "not-the-password", salt), is(not(hash)));
-    }
-
-    @Test
     public void testArgon2iRawHash() throws Exception {
         byte[] salt = new byte[16];
         random.nextBytes(salt);
 
         Argon2Advanced sut = Argon2Factory.createAdvanced(Argon2Types.ARGON2i, salt.length, 32);
-        byte[] hash = sut.rawHash(2, 65536, 1, "password", salt);
-        
-        assertThat(sut.rawHash(2, 65536, 1, "password", salt), is(hash));
-        assertThat(sut.rawHash(2, 65536, 1, "not-the-password", salt), is(not(hash)));
-    }
-
-    @Test
-    public void testArgon2idRawHash() throws Exception {
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
-
-        Argon2Advanced sut = Argon2Factory.createAdvanced(Argon2Types.ARGON2id, salt.length, 32);
         byte[] hash = sut.rawHash(2, 65536, 1, "password", salt);
         
         assertThat(sut.rawHash(2, 65536, 1, "password", salt), is(hash));

@@ -100,10 +100,6 @@ public final class Argon2Factory {
         switch (type) {
             case ARGON2i:
                 return new Argon2i(saltLen, hashLen);
-            case ARGON2d:
-                return new Argon2d(saltLen, hashLen);
-            case ARGON2id:
-                return new Argon2id(saltLen, hashLen);
             default:
                 throw new IllegalArgumentException("Invalid argon2 type");
         }
@@ -116,20 +112,12 @@ public final class Argon2Factory {
         /**
          * Argon2i.
          */
-        ARGON2i,
-        /**
-         * Argon2d.
-         */
-        ARGON2d,
-        /**
-         * Argon2id
-         */
-        ARGON2id;
+        ARGON2i(1); // index 1 in P-H-C
 
         private final Argon2_type jnaType;
 
-        Argon2Types() {
-            this.jnaType = new Argon2_type(this.ordinal());
+        Argon2Types(int val) {
+            this.jnaType = new Argon2_type(val);
         }
 
         public Argon2_type getJnaType() {
